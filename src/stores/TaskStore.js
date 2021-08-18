@@ -73,12 +73,14 @@ const TaskStore = types
         textAnnotations.forEach((box, index) => {
           if (index === 0)
             return;
-              
+          
+          const bbVertices = box.boundingPoly.vertices;
+
           bbrtree.insert({
-            x: box.boundingPoly.vertices[0].x,
-            y: box.boundingPoly.vertices[0].y,
-            w: box.boundingPoly.vertices[2].x - box.boundingPoly.vertices[0].x,
-            h: box.boundingPoly.vertices[2].y - box.boundingPoly.vertices[0].y,
+            x: bbVertices[0].x,
+            y: bbVertices[0].y,
+            w: bbVertices[2].x - bbVertices[0].x,
+            h: bbVertices[2].y - bbVertices[0].y,
           }, { description: box.description });
         });
 
