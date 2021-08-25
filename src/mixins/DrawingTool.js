@@ -1,4 +1,4 @@
-import { types } from "mobx-state-tree";
+import { types, getRoot } from "mobx-state-tree";
 
 import Utils from "../utils";
 import throttle from "lodash.throttle";
@@ -112,9 +112,20 @@ const DrawingTool = types
           value[key] = source[key];
           return value;
         }, { coordstype: "px" });
-        const newArea = self.annotation.createResult(value, currentArea.results[0].value.toJSON(), control, obj);
 
-        self.applyActiveStates(newArea);
+        const foundBboxes = getRoot(self.annotation).task.getTextFromBbox(value.x, value.y, value.width, value.height);
+
+        let newArea;
+
+        if (foundBboxes && foundBboxes.length > 0) {
+          foundBboxes.forEach(bbox => {
+            const bboxNewArea = self.annotation.createResult(bbox.area, {}, control, obj, bbox.description);
+
+            self.applyActiveStates(bboxNewArea);
+            newArea = bboxNewArea;
+          });
+        }
+
         self.deleteRegion();
         return newArea;
       },

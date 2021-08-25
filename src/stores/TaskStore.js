@@ -55,9 +55,8 @@ const TaskStore = types
         const foundObjects = self.rtree.search({ x: searchX, y: searchY, w: searchW, h: searchH });
 
         if (foundObjects.length > 0) {
-          const text = (foundObjects.reverse().map(obj => obj.description)).join(' ');
-
-          return text;
+          foundObjects.reverse();
+          return foundObjects;
         }
       }
       return null;
@@ -68,7 +67,7 @@ const TaskStore = types
         
         const bbrtree = RTree(10000);
 
-        const textAnnotations = self.dataObj.ocrData.outputs[0].textAnnotations;
+        const textAnnotations = self.dataObj.ocrData.outputs[0].ocr.textAnnotations;
 
         textAnnotations.forEach((box, index) => {
           if (index === 0)
@@ -81,7 +80,17 @@ const TaskStore = types
             y: bbVertices[0].y,
             w: bbVertices[2].x - bbVertices[0].x,
             h: bbVertices[2].y - bbVertices[0].y,
-          }, { description: box.description });
+          }, { 
+            description: box.description,
+            area: {
+              x: bbVertices[0].x,
+              y: bbVertices[0].y,
+              width: bbVertices[2].x - bbVertices[0].x,
+              height: bbVertices[2].y - bbVertices[0].y,
+              rotation: 0,
+              coordstype: "px",
+            },
+          });
         });
 
         self.rtree = bbrtree;

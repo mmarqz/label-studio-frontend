@@ -582,7 +582,7 @@ const Annotation = types
       Hotkey.setScope(Hotkey.DEFAULT_SCOPE);
     },
 
-    createResult(areaValue, resultValue, control, object) {
+    createResult(areaValue, resultValue, control, object, foundText) {
       const result = {
         from_name: control.name,
         // @todo should stick to area
@@ -590,8 +590,6 @@ const Annotation = types
         type: control.resultType,
         value: resultValue,
       };
-
-      const foundText = getRoot(self).task.getTextFromBbox(areaValue.x, areaValue.y, areaValue.width, areaValue.height);
       
       let results;
 
