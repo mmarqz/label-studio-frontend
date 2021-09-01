@@ -46,7 +46,7 @@ export const AnnotationStoreExtension = types.model().actions(self => ({
 
     if (!area.classification) getEnv(self).events.invoke('entityCreate', area);
 
-    if (self.store.settings.seleAfterCreate) {
+    if (self.store.settings.selectAfterCreate) {
       if (!area.classification) {
         setTimeout(() => isAlive(area) && self.selectArea(area));
       }
