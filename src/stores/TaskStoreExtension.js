@@ -28,7 +28,7 @@ export const TaskStoreExtension = types.model()
 
         const bbtree = RTree(10000);
 
-        const textAnnotations = self.dataObj.ocrData.outputs[0].textAnnotations;
+        const textAnnotations = self.dataObj.ocrData.textAnnotations;
 
         textAnnotations.forEach((box, index) => {
           if (index === 0)
