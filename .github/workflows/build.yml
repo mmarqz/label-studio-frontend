@@ -1,8 +1,5 @@
 name: Build and Test
-
-on:
-  push:
-    branches: [master, "*/*"]
+on: [push]
 
 jobs:
   build:
@@ -45,18 +42,19 @@ jobs:
     # do this only for master branch (so only for push event)
     # because pr can contain unfinished job
     - run: npx serve -l tcp://localhost:3000 build &
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     - run: yarn run test:e2e:headless
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
 
     - uses: actions/upload-artifact@master
-      if: ${{ failure() }}
+      if: ${{ failure() && github.ref == 'refs/heads/master' }}
       with:
         name: e2e output
         path: e2e/output/
 
     # upload this build as artifact to current Action
     - uses: actions/upload-artifact@master
+      if: github.ref == 'refs/heads/master'
       with:
         name: build ${{ github.event.pull_request.head.sha || github.sha }}
         path: build/
