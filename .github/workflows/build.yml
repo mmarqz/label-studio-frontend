@@ -41,7 +41,7 @@ jobs:
     # run http-server with build in background (will be killed after job ends)
     # do this only for master branch (so only for push event)
     # because pr can contain unfinished job
-    - run: npx serve -l tcp://localhost:3000 build &
+    - run: npm run start &
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     - run: yarn run test:e2e:headless
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
