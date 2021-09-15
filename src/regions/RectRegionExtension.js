@@ -7,8 +7,7 @@ export const RectRegionExtension = types.model(
 ).actions(self => ({
 
   serialize() {
-    return {
-      textAnnotation: self.textAnnotation,
+    let serializedObj = {
       original_width: self.parent.naturalWidth,
       original_height: self.parent.naturalHeight,
       image_rotation: self.parent.rotation,
@@ -20,6 +19,11 @@ export const RectRegionExtension = types.model(
         rotation: self.rotation,
       },
     };
+
+    if (self.textAnnotation)
+      serializedObj.textAnnotation = self.textAnnotation;
+
+    return serializedObj;
   },
 
 }));
