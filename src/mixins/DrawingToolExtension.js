@@ -32,10 +32,10 @@ export const DrawingToolExtension = types.model().actions(self => ({
             y: bbox.area.y / scaleY,
             width: bbox.area.width / scaleX,
             height: bbox.area.height / scaleY,
-            rotation: obj.rotation,
+            rotation: 0,
             coordstype: "px",
           };
-
+ 
           const bboxNewArea = self.annotation.createResult(area, {}, control, obj, bbox.description);
 
           self.applyActiveStates(bboxNewArea);
